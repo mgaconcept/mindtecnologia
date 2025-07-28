@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIND – Soluções Inteligentes</title>
+    <!-- Tailwind via CDN for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--
+      Extend the default Tailwind configuration to inject our custom colour
+      palette and font stack.  The colours were chosen to match the
+      futuristic mood board requested by the user – deep blues, violets and
+      pinks provide a cohesive gradient throughout the app.  If you wish to
+      fine‑tune these values later simply edit the hex codes below.
+    -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#3b5fc7',
+              secondary: '#7b37b4',
+              accent: '#d946ef',
+            },
+            fontFamily: {
+              sans: ['Inter', 'Poppins', 'Space Grotesk', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Apply a global background.  The image is fixed so it stays in place
+         when scrolling.  Feel free to replace background_futuristic.png with
+         your own artwork as long as you keep the file name identical. -->
+    <style>
+      body {
+        background-image: url('./assets/img/background_futuristic.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        backdrop-filter: blur(0px);
+      }
+    </style>
+    <link rel="icon" type="image/png" href="./assets/img/logo_mind.png" />
+  </head>
+  <body class="min-h-screen flex flex-col text-white">
+    <!-- React root element -->
+    <div id="root" class="flex-grow"></div>
+
+    <!-- React and related libraries via UMD builds -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js" crossorigin></script>
+    <!-- Babel standalone compiler to transform JSX on the fly.  This makes
+         development simple because we don't rely on a build step.  In a
+         production environment you should precompile your JS, but for this
+         prototype we trade a small runtime cost for zero build tooling. -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Application code.  All components live inside this script. -->
+    <script type="text/babel">
+      const { BrowserRouter, Routes, Route, Link, useLocation } = ReactRouterDOM;
+
+      /**
+       * Navbar component renders the main navigation.  It supports nested
+       * drop‑downs using CSS only (hover state) so no extra JavaScript is
+       * required.  The mobile menu toggles via a React state hook.  Tailwind
+       * utility classes handle responsiveness.
+       */
+      function Navbar() {
+        const [mobileOpen, setMobileOpen] = React.useState(false);
+
+        return (
+          <nav className="bg-opacity-30 bg-gray-900 backdrop-blur-md sticky top-0 z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between h-16">
+                {/* Logo */}
+                <div className="flex-shrink-0 flex items-center">
+                  <img
+                    className="h-10 w-10"
+                    src="./assets/img/logo_mind.png"
+                    alt="MIND logo"
+                  />
+                  <span className="ml-2 text-2xl font-bold">MIND</span>
+                </div>
+                {/* Desktop menu */}
+                <div className="hidden md:flex md:items-center md:space-x-6">
+                  <NavLink to="/" label="Home" />
+                  {/* Sobre dropdown */}
+                    <div className="relative group">
+                      <span className="cursor-pointer inline-flex items-center">Sobre a MIND</span>
+                      <ul className="absolute left-0 mt-2 w-48 bg-white text-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200">
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/sobre/instituicao">Instituição</Link>
+                        </li>
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/sobre/idealizador">Idealizador</Link>
+                        </li>
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/sobre/faca-parte">Faça parte</Link>
+                        </li>
+                      </ul>
+                    </div>
+                    {/* Soluções dropdown */}
+                    <div className="relative group">
+                      <span className="cursor-pointer inline-flex items-center">Soluções Inteligentes</span>
+                      <ul className="absolute left-0 mt-2 w-64 bg-white text-gray-800 rounded shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-opacity duration-200 z-50">
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/solucoes/revista">Revista Contábil/Jurídica</Link>
+                        </li>
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/solucoes/relatorios">Relatórios com IA</Link>
+                        </li>
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/solucoes/assessor-redacao">Assessor de Redação</Link>
+                        </li>
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/solucoes/assessor-pericias">Assessor de Perícias</Link>
+                        </li>
+                        <li>
+                          <Link className="block px-4 py-2 hover:bg-gray-200" to="/solucoes/automacao-social-media">Automação Social Media</Link>
+                        </li>
+                      </ul>
+                    </div>
+                    <NavLink to="/projetos" label="Projetos em Destaque" />
+                    <NavLink to="/equipe" label="Equipe MIND" />
+                    <NavLink to="/contato" label="Fale Conosco" />
+                    <NavLink to="/login" label="Acesso Restrito" />
+                </div>
+                {/* Mobile menu button */}
+                <div className="md:hidden">
+                  <button
+                    onClick={() => setMobileOpen(!mobileOpen)}
+                    className="text-white focus:outline-none"
+                  >
+                    <svg
+                      className="h-6 w-6"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      {mobileOpen ? (
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      ) : (
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M4 6h16M4 12h16M4 18h16"
+                        />
+                      )}
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* Mobile menu panel */}
+            {mobileOpen && (
+              <div className="md:hidden bg-gray-900 bg-opacity-95 backdrop-blur-lg">
+                <ul className="px-2 pt-2 pb-3 space-y-1">
+                  <li><Link className="block px-3 py-2 rounded-md hover:bg-gray-800" to="/" onClick={() => setMobileOpen(false)}>Home</Link></li>
+                  <li className="border-t border-gray-700" />
+                  <Disclosure title="Sobre a MIND">
+                    <li><Link to="/sobre/instituicao" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Instituição</Link></li>
+                    <li><Link to="/sobre/idealizador" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Idealizador</Link></li>
+                    <li><Link to="/sobre/faca-parte" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Faça parte</Link></li>
+                  </Disclosure>
+                  <Disclosure title="Soluções Inteligentes">
+                    <li><Link to="/solucoes/revista" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Revista Contábil/Jurídica</Link></li>
+                    <li><Link to="/solucoes/relatorios" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Relatórios com IA</Link></li>
+                    <li><Link to="/solucoes/assessor-redacao" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Assessor de Redação</Link></li>
+                    <li><Link to="/solucoes/assessor-pericias" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Assessor de Perícias</Link></li>
+                    <li><Link to="/solucoes/automacao-social-media" className="block px-4 py-2" onClick={() => setMobileOpen(false)}>Automação Social Media</Link></li>
+                  </Disclosure>
+                  <li><Link className="block px-3 py-2 rounded-md hover:bg-gray-800" to="/projetos" onClick={() => setMobileOpen(false)}>Projetos em Destaque</Link></li>
+                  <li><Link className="block px-3 py-2 rounded-md hover:bg-gray-800" to="/equipe" onClick={() => setMobileOpen(false)}>Equipe MIND</Link></li>
+                  <li><Link className="block px-3 py-2 rounded-md hover:bg-gray-800" to="/contato" onClick={() => setMobileOpen(false)}>Fale Conosco</Link></li>
+                  <li><Link className="block px-3 py-2 rounded-md hover:bg-gray-800" to="/login" onClick={() => setMobileOpen(false)}>Acesso Restrito</Link></li>
+                </ul>
+              </div>
+            )}
+          </nav>
+        );
+      }
+
+      /**
+       * Simple helper component for navigation links.  It highlights the
+       * active route by comparing the current location.  When the link is
+       * active, we apply a coloured border and change the text colour.
+       */
+      function NavLink({ to, label }) {
+        const location = useLocation();
+        const isActive = location.pathname === to;
+        return (
+          <Link
+            to={to}
+            className={
+              (isActive
+                ? 'border-b-2 border-accent text-accent'
+                : 'hover:text-accent') +
+              ' transition-colors duration-200'
+            }
+          >
+            {label}
+          </Link>
+        );
+      }
+
+      /**
+       * Disclosure component provides accordion behaviour for the mobile menu.
+       * It takes a title and children and toggles its internal open state
+       * accordingly.
+       */
+      function Disclosure({ title, children }) {
+        const [open, setOpen] = React.useState(false);
+        return (
+          <div className="w-full">
+            <button
+              onClick={() => setOpen(!open)}
+              className="w-full text-left px-3 py-2 hover:bg-gray-800 focus:outline-none"
+            >
+              {title}
+            </button>
+            {open && <ul className="pl-2 pb-2 space-y-1">{children}</ul>}
+          </div>
+        );
+      }
+
+      /**
+       * Home page featuring a hero section and summary cards for each of the
+       * intelligent solutions.  Cards link through to the respective pages.
+       */
+      function Home() {
+        return (
+          <main>
+            {/* Hero section */}
+            <section
+              className="relative h-[60vh] flex items-center justify-center text-center"
+              style={{
+                backgroundImage: "url('./assets/img/banner_header.png')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              <div className="bg-black bg-opacity-50 p-8 rounded-lg">
+                <h1 className="text-4xl md:text-6xl font-extrabold mb-4">Soluções Inteligentes com IA</h1>
+                <p className="text-lg md:text-xl mb-6 max-w-2xl mx-auto">
+                  A MIND combina tecnologia de ponta, ciência de dados e expertise
+                  interdisciplinar para transformar dados em decisões. Conheça
+                  nossas soluções e faça parte do futuro.
+                </p>
+                <Link
+                  to="/solucoes/relatorios"
+                  className="inline-block px-6 py-3 bg-accent text-white rounded-md hover:bg-secondary transition-colors"
+                >
+                  Saiba Mais
+                </Link>
+              </div>
+            </section>
+            {/* Solutions summary */}
+            <section className="py-12 px-4 max-w-7xl mx-auto">
+              <h2 className="text-3xl font-bold text-center mb-8">Nossas Soluções</h2>
+              <div className="grid gap-6 md:grid-cols-3">
+                <SolutionCard
+                  title="Revista Contábil/Jurídica"
+                  description="Conteúdo especializado gerado por IA para manter você atualizado."
+                  icon="./assets/img/icon_financeiro.png"
+                  link="/solucoes/revista"
+                />
+                <SolutionCard
+                  title="Relatórios com IA"
+                  description="Análises automatizadas e relatórios inteligentes que aceleram decisões."
+                  icon="./assets/img/icon_juridico.png"
+                  link="/solucoes/relatorios"
+                />
+                <SolutionCard
+                  title="Assessor de Redação"
+                  description="Ferramenta de apoio para produção textual de baixa e alta demanda."
+                  icon="./assets/img/icon_redacao.png"
+                  link="/solucoes/assessor-redacao"
+                />
+                <SolutionCard
+                  title="Assessor de Perícias"
+                  description="Assistente pericial inteligente que agiliza investigações e laudos."
+                  icon="./assets/img/icon_pericias.png"
+                  link="/solucoes/assessor-pericias"
+                />
+                <SolutionCard
+                  title="Automação Social Media"
+                  description="Agende e automatize publicações, mantendo presença digital ativa."
+                  icon="./assets/img/icon_social_media.png"
+                  link="/solucoes/automacao-social-media"
+                />
+              </div>
+            </section>
+          </main>
+        );
+      }
+
+      /**
+       * Generic card used on the home page to summarise a solution.  Receives
+       * a title, description, icon path and link destination.
+       */
+      function SolutionCard({ title, description, icon, link }) {
+        return (
+          <Link to={link} className="bg-white/10 backdrop-blur-sm rounded-lg p-6 flex flex-col items-center text-center hover:bg-white/20 transition-colors">
+            <img src={icon} alt="" className="h-12 w-12 mb-4" />
+            <h3 className="text-xl font-semibold mb-2">{title}</h3>
+            <p className="text-sm mb-4">{description}</p>
+            <span className="mt-auto text-accent font-medium">Saiba mais →</span>
+          </Link>
+        );
+      }
+
+      /**
+       * Placeholder components for each page.  Replace the <p> tags with
+       * real content as the project evolves.  Endpoints for GPT agents
+       * should be implemented in a backend or serverless function; see
+       * README.md for guidance.
+       */
+      function Placeholder({ title, children }) {
+        return (
+          <main className="max-w-5xl mx-auto py-12 px-4">
+            <h2 className="text-3xl font-bold mb-4">{title}</h2>
+            <div className="space-y-4 text-lg">
+              {children ?? <p>Conteúdo em desenvolvimento. Esta seção será atualizada em breve.</p>}
+            </div>
+          </main>
+        );
+      }
+
+      // Individual page components
+      const Instituicao = () => (
+        <Placeholder title="Instituição">
+          <p>A MIND é uma instituição dedicada à integração de inteligência artificial com as áreas contábil e jurídica. Nosso objetivo é democratizar o acesso a ferramentas avançadas e promover inovação em serviços.</p>
+        </Placeholder>
+      );
+      const Idealizador = () => (
+        <Placeholder title="Idealizador">
+          <p>Conheça o idealizador da MIND: um entusiasta de tecnologia apaixonado por conectar pessoas e conhecimento. Este espaço contará a história, motivação e visão por trás do projeto.</p>
+        </Placeholder>
+      );
+      const FacaParte = () => (
+        <Placeholder title="Faça parte deste projeto">
+          <p>Quer colaborar ou fazer parte da equipe MIND? Entre em contato conosco e descubra como você pode contribuir para construir o futuro das soluções inteligentes.</p>
+        </Placeholder>
+      );
+
+      const Revista = () => (
+        <Placeholder title="Revista Contábil/Jurídica">
+          <p>Nossa revista traz artigos e análises geradas por IA e supervisionadas por especialistas humanos, oferecendo uma combinação única de precisão técnica e inteligência artificial.</p>
+        </Placeholder>
+      );
+      const Relatorios = () => (
+        <Placeholder title="Relatórios com IA">
+          <p>Geramos relatórios detalhados a partir de grandes volumes de dados, utilizando algoritmos avançados para extrair insights e tendências. Em breve você poderá solicitar relatórios personalizados nesta página.</p>
+        </Placeholder>
+      );
+      const AssessorRedacao = () => (
+        <Placeholder title="Assessor de Redação">
+          <p>Nossa ferramenta auxilia na elaboração de textos complexos ou simples, utilizando modelos de linguagem avançados para sugerir melhorias e revisar conteúdo.</p>
+        </Placeholder>
+      );
+      const AssessorPericias = () => (
+        <Placeholder title="Assessor de Perícias">
+          <p>O assessor de perícias utiliza IA para apoiar profissionais em investigações, auditorias e laudos, agilizando a análise de documentos e evidências.</p>
+        </Placeholder>
+      );
+      const AutomacaoSocial = () => (
+        <Placeholder title="Automação Social Media">
+          <p>Em breve você poderá automatizar publicações em redes sociais, otimizando horários e conteúdos com base em análises preditivas. Esta funcionalidade estará disponível sob consulta.</p>
+        </Placeholder>
+      );
+      const Projetos = () => (
+        <Placeholder title="Projetos em Destaque">
+          <p>Descubra nossos projetos mais recentes e inovadores. Aqui serão apresentados estudos de caso e iniciativas que demonstram o impacto da IA aplicada às áreas jurídica e contábil.</p>
+        </Placeholder>
+      );
+      const Equipe = () => (
+        <Placeholder title="Equipe MIND">
+          <p>Conheça as pessoas por trás da MIND. Esta seção mostrará nossa equipe multidisciplinar composta por especialistas em IA, direito, contabilidade e comunicação.</p>
+        </Placeholder>
+      );
+      const Contato = () => (
+        <Placeholder title="Fale Conosco">
+          <p>Precisa falar com a gente? Envie um e‑mail para <a href="mailto:contato@mind.ai" className="text-accent underline">contato@mind.ai</a> ou preencha o formulário de contato (em breve).</p>
+        </Placeholder>
+      );
+      const Login = () => (
+        <Placeholder title="Área de Acesso Restrito">
+          <p>A área restrita está em desenvolvimento. No futuro esta página irá abrigar funcionalidades que requerem autenticação.</p>
+        </Placeholder>
+      );
+
+      /**
+       * Footer component – anchors the bottom of every page.  Includes basic
+       * navigation and copyright notice.
+       */
+      function Footer() {
+        return (
+          <footer className="bg-gray-900 bg-opacity-50 backdrop-blur-md text-sm py-6 mt-auto">
+            <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+              <p>© {new Date().getFullYear()} MIND. Todos os direitos reservados.</p>
+              <div className="flex space-x-4">
+                <Link to="/sobre/instituicao" className="hover:text-accent">Sobre</Link>
+                <Link to="/projetos" className="hover:text-accent">Projetos</Link>
+                <Link to="/contato" className="hover:text-accent">Contato</Link>
+              </div>
+            </div>
+          </footer>
+        );
+      }
+
+      /**
+       * Main application – sets up the router and all page routes.  If you
+       * need to add a new page simply define it above and add a <Route>
+       * entry here.
+       */
+      function App() {
+        return (
+          <BrowserRouter>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/sobre/instituicao" element={<Instituicao />} />
+              <Route path="/sobre/idealizador" element={<Idealizador />} />
+              <Route path="/sobre/faca-parte" element={<FacaParte />} />
+              <Route path="/solucoes/revista" element={<Revista />} />
+              <Route path="/solucoes/relatorios" element={<Relatorios />} />
+              <Route path="/solucoes/assessor-redacao" element={<AssessorRedacao />} />
+              <Route path="/solucoes/assessor-pericias" element={<AssessorPericias />} />
+              <Route path="/solucoes/automacao-social-media" element={<AutomacaoSocial />} />
+              <Route path="/projetos" element={<Projetos />} />
+              <Route path="/equipe" element={<Equipe />} />
+              <Route path="/contato" element={<Contato />} />
+              <Route path="/login" element={<Login />} />
+              {/* Fallback route */}
+              <Route path="*" element={<Placeholder title="Página não encontrada"><p>A página que você procura não existe.</p></Placeholder>} />
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        );
+      }
+
+      // Mount the application into the DOM
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
