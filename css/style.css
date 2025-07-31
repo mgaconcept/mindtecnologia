@@ -643,3 +643,23 @@ form textarea:focus {
   font-weight: 600;
   border-radius: 20px;
 }
+@media (max-width: 768px) {
+  nav {
+    position: relative !important;
+    z-index: 9999 !important;
+  }
+
+  .menu-toggle {
+    z-index: 10001 !important;
+  }
+
+  .nav-links {
+    position: absolute !important;
+    z-index: 10000 !important;
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1 !important;
+  }
+}
