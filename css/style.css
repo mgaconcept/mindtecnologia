@@ -356,7 +356,7 @@ footer a {
 /* Responsividade */
 @media (max-width: 768px) {
   nav {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
@@ -369,7 +369,7 @@ footer a {
     padding: 12px 20px;
   }
 
-  .menu-toggle {
+ /* .menu-toggle {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -385,7 +385,7 @@ footer a {
     background-color: var(--text-color);
     border-radius: 2px;
     transition: all 0.3s ease;
-  }
+  }*/
 
   .nav-links {
     display: flex;
