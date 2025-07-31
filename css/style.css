@@ -354,7 +354,7 @@ footer a {
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   nav {
     display: none;
     flex-wrap: wrap;
@@ -369,7 +369,7 @@ footer a {
     padding: 12px 20px;
   }
 
- /* .menu-toggle {
+  .menu-toggle {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -533,7 +533,7 @@ p {
   margin-bottom: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   h1 {
     font-size: 2rem;
   }
