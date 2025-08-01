@@ -354,7 +354,7 @@ footer a {
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   .nav-links {
     position: flex;
     right: 16px;
@@ -491,7 +491,7 @@ p {
   margin-bottom: 16px;
 }
 
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   h1 {
     font-size: 2rem;
   }
