@@ -356,20 +356,22 @@ footer a {
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .nav-links {
+  nav .nav-links {
     position: absolute;
-    right: 16px;
     top: 64px;
+    right: 16px;
     flex-direction: column;
     background-color: rgba(15, 23, 42, 0.95);
     padding: 16px;
     border-radius: 8px;
-    display: none;
     width: 200px;
+    display: none;
   }
-  .nav-links.open {
+
+  nav .nav-links.open {
     display: flex;
   }
+
   .menu-toggle {
     display: flex;
   }
