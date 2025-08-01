@@ -73,12 +73,13 @@ nav .nav-links li a:hover {
 
 /* Botão hamburguer para dispositivos móveis */
 .menu-toggle {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   width: 24px;
   height: 20px;
   cursor: pointer;
+  z-index: 101;
 }
 
 .menu-toggle span {
@@ -356,7 +357,7 @@ footer a {
 /* Responsividade */
 @media (max-width: 768px) {
   .nav-links {
-    position: flex;
+    position: absolute;
     right: 16px;
     top: 64px;
     flex-direction: column;
