@@ -75,25 +75,14 @@ nav .nav-links li a:hover {
 }
 
 /* Botão hamburguer para dispositivos móveis */
-menu-toggle {
-  position: fixed; /* 🔥 ESSENCIAL: fixa no viewport */
-  top: 16px;
-  right: 16px;
-
-  display: flex;
+.menu-toggle {
+  display: none;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-
-  width: 32px;
-  height: 28px;
-  padding: 6px;
-  z-index: 10001;
-
-  background-color: rgba(0, 0, 0, 0.5); /* opcional para visualização */
-  border-radius: 6px;
+  width: 24px;
+  height: 20px;
+  cursor: pointer;
 }
-
 
 .menu-toggle span {
   height: 2px;
