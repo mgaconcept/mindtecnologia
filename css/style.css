@@ -359,15 +359,22 @@ footer a {
 
 /* Responsividade */
 @media (max-width: 768px) {
+  nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   nav .nav-links {
     position: fixed;
     top: 64px;
-    right: 16px;
+    right: 0; /* 🔧 alinha perfeitamente com a borda direita */
     z-index: 9999;
     flex-direction: column;
     background-color: rgba(15, 23, 42, 0.95);
     padding: 16px;
-    border-radius: 8px;
+    border-radius: 8px 0 0 8px; /* 🔧 curva no canto esquerdo */
     width: 200px;
     display: none;
   }
@@ -378,19 +385,32 @@ footer a {
 
   .menu-toggle {
     display: flex;
+    margin-left: auto; /* 🔧 força ele ir pro canto direito */
+    z-index: 10000; /* acima do menu */
   }
-.card-grid a.card {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  transition: transform 0.2s ease;
+
+  .card-grid a.card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease;
+  }
+
+  .card-grid a.card:hover {
+    transform: scale(1.03);
+  }
+  nav .nav-links {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateX(100%);
+  opacity: 0;
 }
 
-.card-grid a.card:hover {
-  transform: scale(1.03);
-}
+nav .nav-links.open {
+  transform: translateX(0);
+  opacity: 1;
 }
 
+}
 /* ------------------------------------------------------------------
  * Elementos de catálogos e tabelas
  *
