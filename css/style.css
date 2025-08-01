@@ -40,7 +40,7 @@ nav {
   top: 0;
   background-color: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(10px);
-  z-index: 100;
+  z-index: 9998;
 }
 
 nav .logo img {
@@ -357,9 +357,10 @@ footer a {
 /* Responsividade */
 @media (max-width: 768px) {
   nav .nav-links {
-    position: absolute;
+    position: fixed;
     top: 64px;
     right: 16px;
+    z-index: 9999;
     flex-direction: column;
     background-color: rgba(15, 23, 42, 0.95);
     padding: 16px;
