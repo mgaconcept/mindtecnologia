@@ -73,7 +73,7 @@ nav .nav-links li a:hover {
 
 /* Botão hamburguer para dispositivos móveis */
 .menu-toggle {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 24px;
@@ -82,9 +82,9 @@ nav .nav-links li a:hover {
 }
 
 .menu-toggle span {
-  height: 2px;
+  height: 25px;
   background-color: var(--text-color);
-  border-radius: 2px;
+  border-radius: 25px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -354,7 +354,7 @@ footer a {
 }
 
 /* Responsividade */
-/*@media (max-width: 768px) {
+@media (max-width: 768px) {
   .nav-links {
     position: flex;
     right: 16px;
@@ -491,7 +491,7 @@ p {
   margin-bottom: 16px;
 }
 
-/*@media (max-width: 768px) {
+@media (max-width: 768px) {
   h1 {
     font-size: 2rem;
   }
